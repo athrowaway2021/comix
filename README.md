@@ -29,7 +29,7 @@ Done!
 ```
 
 ## Third-Party
-This program uses the Python standard library and:
+This program uses the Python standard library and the following:
   - [Protocol Buffers](https://github.com/protocolbuffers/protobuf)
   - [pyzipper](https://github.com/danifus/pyzipper)
   - [requests](https://github.com/psf/requests)

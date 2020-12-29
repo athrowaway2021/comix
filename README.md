@@ -9,7 +9,7 @@ This tool has been solely written by us, only accesses the platform's publicly-a
 
 ## Description
 
-This tool can be used to download DRM-free copies of comics & manga from the ComiXology platform, including both bought items and those covered by the subscription. The content is downloaded at the highest quality available, which is usually what can be found on the mobile versions of the platform, unlike the SD content found in the browser version. This tool requires a single cookie from your account to download content and an id of the content you wish to download, which can be found in the url of the item's store page or reader page.
+This tool can be used to download DRM-free copies of comics & manga from the ComiXology platform, including both bought items and those covered by the subscription. The content is downloaded at the highest quality available, which is usually what can be found on the mobile versions of the platform, unlike the SD content found in the browser version. This tool requires a single cookie from your account to download content and an ID of the content you wish to download, which can be found in the url of the item's store page or reader page.
 
 ## Installation
 
@@ -19,13 +19,25 @@ This tool can be used to download DRM-free copies of comics & manga from the Com
 
 ## Usage
 
-First acquire your authentication token cookie (aToken) from the website (region irrelevant) via the Application tab in your browser's devtools (can usually be accessed using the F12 key). You must be logged in order to get the cookie. Copy the cookie's value into the `AUTH_TOKEN` field in the `config.py` file. You can now use the tool by running `comix.py` and supplying the item id as an argument. The downloaded content will be saved to the output folder. Be aware that the cookie will expire after some time or if you log out of the session from which you got the cookie and you will have to reacquire it.
+First acquire your authentication token cookie (aToken) from the website (region irrelevant) via the Application tab in your browser's devtools (can usually be accessed using the F12 key). You must be logged in order to get the cookie. Copy the cookie's value into the `AUTH_TOKEN` field in the `config.py` file.
+
+You can now use the tool by running `comix.py` and supplying the item ID as an argument. The downloaded content will be saved to the output folder. Be aware that the cookie will expire after some time or if you log out of the session from which you got the cookie and you will have to reacquire it.
+
+```
+> python comix.py list
+899890 : Haikyu - v41
+797946 : Marginal Operation - v01
+1720 : New Avengers (2004-2010) - 001
+271718 : Attack on Titan Sampler
+```
+
+You can also list all of the item IDs for content you own by supplying `list` as an argument.
 
 ```
 > python comix.py 797946
-797946 : Marginal Operation
-Downloading page 207 . . .
-Done!
+797946 : Marginal Operation - v01
+Downloading page 206 . . .
+Done! Content saved to C:\comix\comix_out\Marginal Operation - v01
 ```
 
 ## Third-Party

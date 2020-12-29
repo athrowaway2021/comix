@@ -3,7 +3,7 @@ A Python tool to download and remove DRM from comics and manga from ComiXology f
 
 ## Disclaimer
 
-This tool is meant to be used only for creating offline, personal, backups of content that you have bought and own. We do not endorse piracy and sharing content downloaded using this tool. The full responsibility of using this tool correctly and not misuing it for misappropriate reasons lies with the user(s) using it.
+This tool is meant to be used only for creating offline, personal, backups of content that you have bought and own. We do not endorse piracy and sharing content downloaded using this tool. The full responsibility of using this tool correctly and not misuing it for misappropriate reasons lies with the user(s).
 
 This tool has been solely written by us, only accesses the platform's publicly-accessible release API, and the token required to access the API is supplied by the user(s). The protocol buffer definitions used by the API were reverse-engineered and "guessed" by us.
 

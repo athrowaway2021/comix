@@ -69,7 +69,10 @@ class Cmx:
 
         self.comic = response_proto.comic
         self.release_name = self.get_issue_infos([self.item_id])[0][1]
-
+        self.publisher_id = self.comic.issue.publisher.publisher_id
+        if publisher_id == "274" or publisher_id == "281":
+            publisher_id = "6670"
+        
         print(str(self.item_id) + " : " + self.release_name)
 
         return True
@@ -107,7 +110,7 @@ class Cmx:
             for image in page.pageinfo.images:
                 if image.type != image.Type.FULL:
                     continue
-                image_key = comix_key.calculate_key(image.digest.data, self.item_id, self.comic.version, self.comic.issue.publisher.publisher_id, i)
+                image_key = comix_key.calculate_key(image.digest.data, self.item_id, self.comic.version, self.publisher_id, i)
                 
                 response = self.session.get(image.uri)
                 with pyzipper.AESZipFile(io.BytesIO(response.content)) as zf:

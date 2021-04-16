@@ -19,7 +19,11 @@ This tool can be used to download DRM-free copies of comics & manga from the Com
 
 ## Usage
 
-First acquire your authentication token cookie (aToken) from the website (region irrelevant) via the Application tab in your browser's devtools (can usually be accessed using the F12 key). You must be logged in order to get the cookie. Copy the cookie's value into the `AUTH_TOKEN` field in the `config.py` file.
+~~First acquire your authentication token cookie (aToken) from the website (region irrelevant) via the Application tab in your browser's devtools (can usually be accessed using the F12 key). You must be logged in order to get the cookie.~~
+
+An API update removed the ability to use the browser auth token for the methods used in this tool, so from now you must aquire the token from the mobile app. For this you are required to have an Android device or emulator at hand. This repository now includes [a patched version of the app](https://github.com/athrowaway2021/comix/blob/main/comix_3.10.17_patched.apk) that allows HTTPS inspection. I recommend either using Fiddler on PC as a proxy, or the HttpCanary app with the ComiXology app running in Parallel Space to inspect the app's HTTPS traffic. There are many guides on how to do this, so please use Google if you have any problems. 
+
+Once you are able to inspect the app's traffic, the auth token, labelled as "amz_access_token", will be present in the bodies of all POST requests to the "cmx-secure.comixology.com" API. Then copy the auth token's value into the `AUTH_TOKEN` field in the `config.py` file.
 
 You can now use the tool by running `comix.py` and supplying the item ID as an argument. The downloaded content will be saved to the output folder. Be aware that the cookie will expire after some time or if you log out of the session from which you got the cookie and you will have to reacquire it.
 

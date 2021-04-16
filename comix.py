@@ -20,7 +20,7 @@ class Cmx:
     
     
     def get_issue_infos(self, ids):
-        issues_form = {"auth_token": "lwa-|" + config.AUTH_TOKEN }
+        issues_form = { "amz_access_token": config.AUTH_TOKEN, "account_type": "amazon" }
         i = 0
         for _id in ids:
             issues_form["ids[{0}]".format(i)] = _id
@@ -45,7 +45,7 @@ class Cmx:
 
 
     def get_comic(self):
-        download_form = {"auth_token": "lwa-|" + config.AUTH_TOKEN, "comic_format": "IPAD_PROVISIONAL_HD", "item_id": self.item_id }
+        download_form = {"amz_access_token": config.AUTH_TOKEN, "account_type": "amazon", "comic_format": "IPAD_PROVISIONAL_HD", "item_id": self.item_id }
         response = self.session.post(config.API_DOWNLOAD_URL, headers = config.API_HEADERS, data = download_form)
         
         response_proto = comix_pb2.ComicResponse()
@@ -70,8 +70,8 @@ class Cmx:
         self.comic = response_proto.comic
         self.release_name = self.get_issue_infos([self.item_id])[0][1]
         self.publisher_id = self.comic.issue.publisher.publisher_id
-        if publisher_id == "274" or publisher_id == "281":
-            publisher_id = "6670"
+        if self.publisher_id == "274" or self.publisher_id == "281":
+            self.publisher_id = "6670"
         
         print(str(self.item_id) + " : " + self.release_name)
 
@@ -79,7 +79,7 @@ class Cmx:
 
 
     def print_list(self):
-        list_form = {"auth_token": "lwa-|" + config.AUTH_TOKEN }
+        list_form = { "amz_access_token": config.AUTH_TOKEN, "account_type": "amazon", "sinceDate": "0" }
         response = self.session.post(config.API_LIST_URL, headers = config.API_HEADERS, data = list_form)
 
         list_proto = comix_pb2.IssueResponse2()

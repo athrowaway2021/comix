@@ -7,6 +7,7 @@ import os
 import pyzipper
 import requests
 import sys
+import re
 
 import config
 import comix_key
@@ -34,7 +35,9 @@ class Cmx:
         infos = []
         for issue in issues_proto.issues.issues:
             # prevent invalid filenames by replacing illegal symbols
-            release_name = issue.title.replace(":", "-").replace("+", "").replace("?", "").replace("!", "").replace("%", "").replace("*", "").replace("&", " ").replace("/", "").replace("#", "").replace("\\", "").replace("  ", " ")
+            regex = r"\.|\?|\\|/|<|>|\"|'|%|\*|\&|\+|\-|\#|\!"
+            
+            release_name = re.sub(r"\s+", " ", re.sub(regex, '', issue.title).replace(":", "-"))
             if issue.volume != "":
                 release_name += " - v" + issue.volume.zfill(2)
             elif issue.issue != "":

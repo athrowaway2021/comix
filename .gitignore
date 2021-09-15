@@ -131,3 +131,4 @@ dmypy.json
 
 *.apk
 comix_out
+.vscode

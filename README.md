@@ -21,7 +21,7 @@ This tool can be used to download DRM-free copies of comics & manga from the Com
 
 ~~First acquire your authentication token cookie (aToken) from the website (region irrelevant) via the Application tab in your browser's devtools (can usually be accessed using the F12 key). You must be logged in order to get the cookie.~~
 
-~~An API update removed the ability to use the browser auth token for the methods used in this tool, so from now you must aquire the token from the mobile app. For this you are required to have an Android device or emulator at hand. I recommend either using Fiddler on PC as a proxy, or the HttpCanary app with the ComiXology app running in Parallel Space to inspect the its HTTPS traffic. There are many guides on how to do this, so please use Google if you have any problems.
+~~An API update removed the ability to use the browser auth token for the methods used in this tool, so from now you must aquire the token from the mobile app. For this you are required to have an Android device or emulator at hand. I recommend either using Fiddler on PC as a proxy, or the HttpCanary app with the ComiXology app running in Parallel Space to inspect the its HTTPS traffic. There are many guides on how to do this, so please use Google if you have any problems.~~
 
 ~~This repository includes [a patched version of the app](https://github.com/athrowaway2021/comix/blob/main/comix_3.10.17_patched.apk) that allows HTTPS inspection, but if you would like to do it yourself due to trust, or lack thereof, you can simply download an APK for the app from any mirror of your choice and then patch it using [this tool.](https://github.com/shroudedcode/apk-mitm)~~
 

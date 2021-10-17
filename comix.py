@@ -9,6 +9,7 @@ import requests
 import sys
 import re
 
+import amazon_auth
 import config
 import comix_key
 import comix_pb2
@@ -18,10 +19,12 @@ class Cmx:
         self.session = requests.Session()
         if item_id:
             self.item_id = int(item_id)
+        print("Getting auth token . . .")
+        self.auth_token = amazon_auth.login(config.EMAIL, config.PASSWORD, config.DEVICE_ID)["access_token"]
     
     
     def get_issue_infos(self, ids):
-        issues_form = { "amz_access_token": config.AUTH_TOKEN, "account_type": "amazon" }
+        issues_form = { "amz_access_token": self.auth_token, "account_type": "amazon" }
         i = 0
         for _id in ids:
             issues_form["ids[{0}]".format(i)] = _id
@@ -48,7 +51,7 @@ class Cmx:
 
 
     def get_comic(self):
-        download_form = {"amz_access_token": config.AUTH_TOKEN, "account_type": "amazon", "comic_format": "IPAD_PROVISIONAL_HD", "item_id": self.item_id }
+        download_form = {"amz_access_token": self.auth_token, "account_type": "amazon", "comic_format": "IPAD_PROVISIONAL_HD", "item_id": self.item_id }
         response = self.session.post(config.API_DOWNLOAD_URL, headers = config.API_HEADERS, data = download_form)
         
         response_proto = comix_pb2.ComicResponse()
@@ -82,7 +85,7 @@ class Cmx:
 
 
     def print_list(self):
-        list_form = { "amz_access_token": config.AUTH_TOKEN, "account_type": "amazon", "sinceDate": "0" }
+        list_form = { "amz_access_token": self.auth_token, "account_type": "amazon", "sinceDate": "0" }
         response = self.session.post(config.API_LIST_URL, headers = config.API_HEADERS, data = list_form)
 
         list_proto = comix_pb2.IssueResponse2()

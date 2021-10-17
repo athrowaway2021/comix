@@ -23,9 +23,9 @@ This tool can be used to download DRM-free copies of comics & manga from the Com
 
 ~~An API update removed the ability to use the browser auth token for the methods used in this tool, so from now you must aquire the token from the mobile app. For this you are required to have an Android device or emulator at hand. I recommend either using Fiddler on PC as a proxy, or the HttpCanary app with the ComiXology app running in Parallel Space to inspect the its HTTPS traffic. There are many guides on how to do this, so please use Google if you have any problems.
 
-This repository includes [a patched version of the app](https://github.com/athrowaway2021/comix/blob/main/comix_3.10.17_patched.apk) that allows HTTPS inspection, but if you would like to do it yourself due to trust, or lack thereof, you can simply download an APK for the app from any mirror of your choice and then patch it using [this tool.](https://github.com/shroudedcode/apk-mitm)
+~~This repository includes [a patched version of the app](https://github.com/athrowaway2021/comix/blob/main/comix_3.10.17_patched.apk) that allows HTTPS inspection, but if you would like to do it yourself due to trust, or lack thereof, you can simply download an APK for the app from any mirror of your choice and then patch it using [this tool.](https://github.com/shroudedcode/apk-mitm)~~
 
-Once you are able to inspect the app's traffic, the auth token, labelled as "amz_access_token", will be present in the bodies of all POST requests to the "cmx-secure.comixology.com" API. Then copy the auth token's value into the `AUTH_TOKEN` field in the `config.py` file.~~
+~~Once you are able to inspect the app's traffic, the auth token, labelled as "amz_access_token", will be present in the bodies of all POST requests to the "cmx-secure.comixology.com" API. Then copy the auth token's value into the `AUTH_TOKEN` field in the `config.py` file.~~
 
 The login process is now automated and all you need to do to login is to enter your Amazon email and password in `config.py`.
 

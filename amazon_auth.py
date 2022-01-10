@@ -52,7 +52,7 @@ def generate_frc(device_id):
     
     key = PBKDF2(device_id, b"AES/CBC/PKCS7Padding")
     iv = secrets.token_bytes(16)
-    cipher = AES.new(key, AES.MODE_CBC, iv=iv)
+    cipher = AES.new(key, AES.MODE_CBC, iv)
     ciphertext = cipher.encrypt(pkcs7_pad(compressed))
 
     hmac_ = hmac.new(PBKDF2(device_id, b"HmacSHA256"), iv + ciphertext, hashlib.sha256).digest()

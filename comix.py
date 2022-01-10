@@ -124,7 +124,7 @@ class Cmx:
             i += 1
 
         i = 0
-        for file in Path(content_folder).rglob("*"):
+        for file in sorted(Path(content_folder).rglob("*")):
             extension = os.path.splitext(file)[1]
             if extension == ".jpg" or extension == ".png":
                 os.rename(file, os.path.join(content_folder, "{0} - p{1}{2}".format(self.release_name, str(i).zfill(3), extension)))

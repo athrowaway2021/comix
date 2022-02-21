@@ -131,4 +131,7 @@ dmypy.json
 
 *.apk
 comix_out
+device_id
+tokens
+kindle_test.py
 .vscode

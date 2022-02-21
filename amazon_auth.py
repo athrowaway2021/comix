@@ -12,6 +12,28 @@ import secrets
 import sys
 import uuid
 
+SCRIPT_PATH = os.path.dirname(os.path.realpath(sys.argv[0]))
+DEVICE_ID_PATH = os.path.join(SCRIPT_PATH, "device_id")
+TOKENS_PATH = os.path.join(SCRIPT_PATH, "tokens")
+
+if os.path.isfile(DEVICE_ID_PATH):
+    with open(DEVICE_ID_PATH, "r") as f:
+        DEVICE_ID = f.read()
+else:
+    with open(DEVICE_ID_PATH, "w") as f:
+        DEVICE_ID = secrets.token_hex(16)
+        f.write(DEVICE_ID)
+
+def save_tokens(tokens):
+    with open(TOKENS_PATH, "w") as f:
+        f.write(json.dumps(tokens))
+def get_tokens():
+    if os.path.isfile(TOKENS_PATH):
+        with open(TOKENS_PATH, "r") as f:
+            return json.loads(f.read())
+    else:
+        return None
+
 APP_NAME = "com.amazon.avod.thirdpartyclient"
 APP_VERSION = "296016847"
 DEVICE_NAME = "walleye/google/Pixel 2"
@@ -60,7 +82,11 @@ def generate_frc(device_id):
     return base64.b64encode(b"\0" + hmac_[:8] + iv + ciphertext).decode()
 
 
-def login(email, password, device_id, domain = "com"):
+def login(email, password, domain = "com", device_id = DEVICE_ID):
+    tokens = get_tokens()
+    if tokens and tokens["name"] == email:
+        return refresh(tokens)
+
     body = {
         "auth_data": {
             "use_global_authentication": "true",
@@ -103,11 +129,16 @@ def login(email, password, device_id, domain = "com"):
 
     response_json = requests.post(f"https://api.amazon.{domain}/auth/register", headers=get_headers(domain), json=body).json()
     try:
-        return {
+        tokens = {
+            "name": email,
             "domain": domain,
             "access_token": response_json["response"]["success"]["tokens"]["bearer"]["access_token"],
-            "refresh_token": response_json["response"]["success"]["tokens"]["bearer"]["refresh_token"]
+            "refresh_token": response_json["response"]["success"]["tokens"]["bearer"]["refresh_token"],
+            "device_private_key": response_json["response"]["success"]["tokens"]["mac_dms"]["device_private_key"],
+            "adp_token": response_json["response"]["success"]["tokens"]["mac_dms"]["adp_token"],
         }
+        save_tokens(tokens)
+        return tokens
     except:
         print(json.dumps(response_json))
         return None
@@ -131,28 +162,16 @@ def refresh(tokens):
 
 
 if __name__ == "__main__":
-    script_path = os.path.dirname(os.path.realpath(sys.argv[0]))
-    device_id_path = os.path.join(script_path, "device_id")
-    tokens_path = os.path.join(script_path, "tokens")
-
-    if os.path.isfile(device_id_path):
-        with open(device_id_path, "r") as f:
-            device_id = f.read()
-    else:
-        with open(device_id_path, "w") as f:
-            device_id = secrets.token_hex(16)
-            f.write(device_id)
-
     arg_count = len(sys.argv)
     if arg_count != 4:
         print("usage: amazon_auth.py <email> <password> <domain>")
         print("domains: com, co.uk, co.jp, de")
         exit()
     
-    tokens = login(sys.argv[1], sys.argv[2], device_id, sys.argv[3])
+    tokens = login(sys.argv[1], sys.argv[2], sys.argv[3])
+    
     if tokens == None:
         print("Could not login!")
     else:
         print(json.dumps(tokens))
-        with open(tokens_path, "w") as f:
-            f.write(json.dumps(tokens))
+

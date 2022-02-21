@@ -1,6 +1,6 @@
 EMAIL = ""
 PASSWORD = ""
-DEVICE_ID = "f245bb5cce9f2e7fb6bb9b6d7dfe85fa" # don't change
+DOMAIN = "com"
 
 if (EMAIL == "" or PASSWORD == ""):
     print("SET YOUR EMAIL AND PASSWORD IN config.py BEFORE DOWNLOADING ! ! !")

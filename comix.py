@@ -9,7 +9,7 @@ import requests
 import sys
 import re
 
-import amazon_auth
+import amazon_api
 import config
 import comix_key
 import comix_pb2
@@ -20,7 +20,7 @@ class Cmx:
         if item_id:
             self.item_id = int(item_id)
         print("Getting auth token . . .")
-        self.auth_token = amazon_auth.login(config.EMAIL, config.PASSWORD)["access_token"]
+        self.auth_token = amazon_api.login(config.EMAIL, config.PASSWORD)["access_token"]
     
     
     def get_issue_infos(self, ids):

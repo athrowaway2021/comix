@@ -147,6 +147,7 @@ def login(email, password, domain = "com", device_id = DEVICE_ID):
             "device_os_family": "android",
             "device_type": DEVICE_TYPE,
             "device_serial": device_id,
+            "mac_address": secrets.token_hex(64).upper(),
             "manufacturer": MANUFACTURER,
             "model": DEVICE_NAME,
             "os_version": "30",
@@ -171,6 +172,8 @@ def login(email, password, domain = "com", device_id = DEVICE_ID):
         return register_device(tokens)
     except:
         print(json.dumps(response_json))
+        if "challenge" in response_json["response"] and response_json["response"]["challenge"]["challenge_reason"] == "HandleOnWebView":
+            print("Amazon needs to reconfirm your identity with 2FA. Please logout and login again in your browser.")
         return None
 
 

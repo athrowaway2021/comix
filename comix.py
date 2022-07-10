@@ -20,7 +20,10 @@ class Cmx:
         if item_id:
             self.item_id = int(item_id)
         print("Getting auth token . . .")
-        self.auth_token = amazon_api.login(config.EMAIL, config.PASSWORD)["access_token"]
+        tokens = amazon_api.login(config.EMAIL, config.PASSWORD)
+        if not tokens:
+            raise Exception("Could not get auth token")
+        self.auth_token = tokens["access_token"]
     
     
     def get_issue_infos(self, ids):

@@ -78,9 +78,12 @@ class Cmx:
 
         self.comic = response_proto.comic
         self.release_name = self.get_issue_infos([self.item_id])[0][1]
+
         self.publisher_id = self.comic.issue.publisher.publisher_id
         if self.publisher_id == "274" or self.publisher_id == "281":
             self.publisher_id = "6670"
+        if self.publisher_id == "0" or self.publisher_id == "250" or self.publisher_id == "34" or self.publisher_id == "3":
+            self.publisher_id = "1"
         
         print(str(self.item_id) + " : " + self.release_name)
 

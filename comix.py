@@ -84,6 +84,8 @@ class Cmx:
             self.publisher_id = "6670"
         if self.publisher_id == "0" or self.publisher_id == "250" or self.publisher_id == "34" or self.publisher_id == "3":
             self.publisher_id = "1"
+        if self.publisher_id == "6" or self.publisher_id == "7" or self.publisher_id == "10" or self.publisher_id == "17" or self.publisher_id == "8":
+            self.publisher_id = "4"
         
         print(str(self.item_id) + " : " + self.release_name)
 

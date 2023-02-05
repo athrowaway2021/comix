@@ -2,3 +2,4 @@ protobuf
 pycryptodome
 pyzipper
 requests
+xmltodict

@@ -27,31 +27,35 @@ class Cmx:
     
     
     def get_issue_infos(self, ids):
-        issues_form = { "amz_access_token": self.auth_token, "account_type": "amazon" }
-        i = 0
-        for _id in ids:
-            issues_form["ids[{0}]".format(i)] = _id
-            i += 1
-
-        response = self.session.post(config.API_ISSUE_URL, headers = config.API_HEADERS, data = issues_form)
-
-        issues_proto = comix_pb2.IssueResponse()
-        issues_proto.ParseFromString(response.content)
-
+        total_issues = len(ids)
+        max_issues_in_request = 700
+        issue_count = 0
         infos = []
-        for issue in issues_proto.issues.issues:
-            # prevent invalid filenames by replacing illegal symbols
-            regex = r"\.|\?|\\|/|<|>|\"|'|%|\*|\&|\+|\-|\#|\!"
+        while issue_count < total_issues:
+            i = 0
+            issues_form = { "amz_access_token": self.auth_token, "account_type": "amazon" }
+            while i < max_issues_in_request and issue_count < total_issues:
+                issues_form["ids[{0}]".format(i)] = ids[issue_count]
+                i += 1
+                issue_count += 1
+
+            response = self.session.post(config.API_ISSUE_URL, headers = config.API_HEADERS, data = issues_form)
+
+            issues_proto = comix_pb2.IssueResponse()
+            issues_proto.ParseFromString(response.content)
+
+            for issue in issues_proto.issues.issues:
+                # prevent invalid filenames by replacing illegal symbols
+                regex = r"\.|\?|\\|/|<|>|\"|'|%|\*|\&|\+|\-|\#|\!"
             
-            release_name = re.sub(r"\s+", " ", re.sub(regex, '', issue.title).replace(":", "-"))
-            if issue.volume != "":
-                release_name += " - v" + issue.volume.zfill(2)
-            elif issue.issue != "":
-                release_name += " - " + issue.issue.zfill(3)
-            infos.append([issue.id, release_name]) 
+                release_name = re.sub(r"\s+", " ", re.sub(regex, '', issue.title).replace(":", "-"))
+                if issue.volume != "":
+                    release_name += " - v" + issue.volume.zfill(2)
+                elif issue.issue != "":
+                    release_name += " - " + issue.issue.zfill(3)
+                    infos.append([issue.id, release_name]) 
         # return ids with names since the issues returned by the api are in a different order than requested
         return infos
-
 
     def get_comic(self):
         download_form = {"amz_access_token": self.auth_token, "account_type": "amazon", "comic_format": "IPAD_PROVISIONAL_HD", "item_id": self.item_id }

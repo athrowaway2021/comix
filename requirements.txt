@@ -1,4 +1,6 @@
-protobuf
+bs4
+lxml
+pillow
 pycryptodome
-pyzipper
 requests
+xmltodict

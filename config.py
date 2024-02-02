@@ -1,18 +1,4 @@
-EMAIL = ""
-PASSWORD = ""
-DOMAIN = "com"
-
-if (EMAIL == "" or PASSWORD == ""):
-    print("SET YOUR EMAIL AND PASSWORD IN config.py BEFORE DOWNLOADING ! ! !")
-    exit()
-
-API_DOWNLOAD_URL = "https://cmx-secure.comixology.com/ios/api/com.iconology.android.Comics/3.9.7/?deviceType=tablet&lang=en&store=US&action=getUserPurchase"
-API_ISSUE_URL = "https://digital.comixology.com/ios/api/com.iconology.android.Comics/3.9.7/?deviceType=tablet&lang=en&store=US&action=getIssueSummaries"
-API_LIST_URL = "https://cmx-secure.comixology.com/ios/api/com.iconology.android.Comics/3.9.7/?deviceType=tablet&lang=en&store=US&action=getPurchaseTransactions"
+DOMAIN = "co.uk" # com, co.uk, co.jp, . . .
 
 API_MANIFEST_URL = "https://kindle-digital-delivery.amazon.com/delivery/manifest/kindle.ebook/"
-
-API_HEADERS = {
-    "User-Agent": "Comics/3.10.17[3.10.17.310418] Google/10",
-    "x-client-application" : "com.comixology.comics"
-}
+API_VOUCHER_VERSIONS = "" #"?supportedVoucherVersions=V1%2CV2%2CV3%2CV4%2CV5%2CV6%2CV7%2CV8%2CV9%2CV10%2CV11%2CV12%2CV13%2CV14%2CV15%2CV16%2CV17%2CV18%2CV19%2CV20%2CV21%2CV22%2CV23%2CV24%2CV25%2CV26%2CV27%2CV28%2CV9708%2CV1031%2CV2069%2CV9041%2CV3646%2CV6052%2CV9479%2CV9888%2CV4648%2CV5683%2CV9753"

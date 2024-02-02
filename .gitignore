@@ -129,8 +129,7 @@ dmypy.json
 .pyre/
 
 
-*.apk
-comix_out
-device_id
-tokens
-.vscode
+.vscode/
+output/
+experiment/
+state.json

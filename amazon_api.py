@@ -98,25 +98,7 @@ def generate_frc(device):
 
     return base64.b64encode(b"\0" + hmac_[:8] + iv + ciphertext).decode()
 
-
-def login(email, password, domain = "com"):
-    state = get_state()
-    if state:
-        ret = refresh(state)
-        if ret:
-            print("Logged in with saved state")
-            return ret
-        else:
-            print("Could not refresh saved state")
-    
-    print("Enter your Amazon credentials . . .")
-    if not email:
-        email = input("Email: ")
-    if not password:
-        password = getpass.getpass("Password: ")
-        
-    device = amazon_device.get_random_amazon_device()
-
+def send_login_request(email, password, device, domain = "com"):
     body = {
         "auth_data": {
             "use_global_authentication": "true",
@@ -154,16 +136,50 @@ def login(email, password, domain = "com"):
         },
         "requested_extensions": ["device_info","customer_info"]
     }
+    return requests.post(f"https://api.amazon.{domain}:443/auth/register", headers=get_auth_headers(domain), json=body)
 
-    response = requests.post(f"https://api.amazon.{domain}:443/auth/register", headers=get_auth_headers(domain), json=body)
-    
-    if response.status_code != 200:
-        response = response.json()        
-        if "challenge" in response["response"] and response["response"]["challenge"]["challenge_reason"] == "HandleOnWebView":
-            print("Amazon needs to reconfirm your identity with 2FA. Please logout and login again in your browser.")
-        return None
+def attempt_login_request(email, password, device, domain = "com"):
+    response = send_login_request(email, password, device, domain)
+
+    if response.status_code == 200:
+        return response.json()
     
     response = response.json()
+    if "challenge" in response["response"]:
+        if response["response"]["challenge"]["challenge_reason"] == "MissingRequiredAuthenticationData" and response["response"]["challenge"]["required_authentication_method"] == "OTPCode":
+            otp = input("Enter your OTP/2FA code: ")
+            password = f"{password}{otp}"
+            return attempt_login_request(email, password, device, domain)
+        elif response["response"]["challenge"]["challenge_reason"] == "HandleOnWebView":
+            print("Amazon needs to reconfirm your identity with 2FA. Please logout and login again in your browser.")
+            return None
+        else:
+            print("Unexpected login challenge")
+    else:
+        print("Unexpected login response")
+
+    print(json.dumps(response))
+    return None
+
+def login(email, password, domain = "com"):
+    state = get_state()
+    if state:
+        ret = refresh(state)
+        if ret:
+            print("Logged in with saved state")
+            return ret
+        else:
+            print("Could not refresh saved state")
+    
+    print("Enter your Amazon credentials . . .")
+    if not email:
+        email = input("Email: ")
+    if not password:
+        password = getpass.getpass("Password: ")
+        
+    device = amazon_device.get_random_amazon_device()
+    response = attempt_login_request(email, password, device, domain)
+    
     try:
         state = {
             "name": hashlib.md5(email.encode()).hexdigest(), # to differentiate states from different accounts

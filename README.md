@@ -4,11 +4,11 @@ A Python tool to download and remove DRM from comics and manga from Amazon Kindl
 
 ## Update (01/2024)
 
-The tool now works to seamlessly acquire highest-quality (i.e. 3056h for most comics) titles from Kindle, both for old ComiXology and post-merge titles.
+The tool now works to seamlessly acquire highest-quality (i.e. x3056 for most comics) titles from Kindle, both for old ComiXology and post-merge titles.
 
 Since HD titles on Kindle are tiled, it's impossible to acquire the original JPEG images, and the outputs are saved as PNG to retain quality at the cost of file size.
 
-The tool is very work-in-progress and not all kinds of titles have been tested, and there are some TODO's left in the code, such as processing metadata, parallesing downloading and extraction, and adding a feature to list user's availabe books. Feel free to leave feedback and issues, or make pull requests with improvements.
+The tool is very work-in-progress and not all kinds of titles have been tested, and there are some TODO's left in the code, such as processing metadata, parallesing downloading and extraction, and adding a feature to list user's availabe books (the required API URL is in the relevant TODO). Feel free to leave feedback and issues, or make pull requests with improvements.
 
 I will close issues relating to the old ComiXology tool and move the tool itself to a seperate branch for legacy reasons.
 
@@ -30,7 +30,7 @@ This tool can be used to download DRM-free copies of comics & manga from the Ama
 
 ## Usage
 
-The login process is entirely automated and all you need to do is to input your email and password when the program prompts for them. The authentication cookies are then stored locally and reused in further runs.
+The login process is entirely automated and all you need to do is to input your email and password when the program prompts for them. The authentication tokens/cookies are then stored locally and reused in further runs, whilst passwords are never stored or cached. If you have MFA enabled, the program may also request a OTP code from a text or your authenticator app.
 
 You can then use the tool by running `unkindle.py` and supplying the item ASIN as an argument. The downloaded content will be saved to the output folder. Be aware that the authentication will expire after some time so you may have to reinput your credentials every now and then, and 2FA may also be required sometimes, which can be resolved by simply logging out and logging back in on the Amazon site on the same machine.
 
